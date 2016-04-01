@@ -9,8 +9,8 @@ var Enemy = function(x, y, speed) {
     this.x = x;
     this.y = y;
 
-    this.width = 75;
-    this.height = 50;
+    this.width = 90;
+    this.height = 60;
 
     this.speed = speed;
     
@@ -30,7 +30,7 @@ Enemy.prototype.update = function(dt) {
 // which will ensure the game runs at the same speed for
 // all computers.
 
-    if (this.x < 500) {
+    if (this.x < 590) {
         this.x += (dt)*this.speed;
     } else {
         this.x = -200;
@@ -89,11 +89,9 @@ Player.prototype.reset = function() {
 Player.prototype.checkCollision = function() {
 
     for (var i =0; i < 5; i++) {
-    if ((this.x > allEnemies[i].x && this.x < allEnemies[i].x + 75 && this.y > allEnemies[i].y && this.y < allEnemies[i].y + 50) 
-        || (this.x < allEnemies[i].x && this.x + 60 > allEnemies[i].x && this.y > allEnemies[i].y && this.y < allEnemies[i].y + 50)) {
-        this.reset();
-        } else {
-        this.y --;    
+    if ((this.x > allEnemies[i].x && this.x < allEnemies[i].x + 90 && this.y > allEnemies[i].y && this.y < allEnemies[i].y + 60) || 
+        (this.x < allEnemies[i].x && this.x + 60 > allEnemies[i].x && this.y > allEnemies[i].y && this.y < allEnemies[i].y + 60)) {
+        this.reset();  
     }
     }
 };
@@ -110,16 +108,16 @@ Player.prototype.update = function() {
 //Manually move the player to different directons
 Player.prototype.handleInput = function(key) {
     if (key === "left") {
-        this.x -=20;
+        this.x -=101;
     }
     else if (key === "right") {
-        this.x += 20;
+        this.x += 101;
     }
     else if (key === 'up') {
-        this.y -= 10;
+        this.y -= 83;
     }
     else if (key === 'down') {
-        this.y += 10;
+        this.y += 83;
     }
 };
 
