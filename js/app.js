@@ -76,13 +76,13 @@ var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
 
 
 // Place the player object in a variable called player
-var player = new Player(250, 400);
+var player = new Player(250, 500);
 
 
 //This is to define where to rest the player when the reset needs to be called by collision or restart the game.
 Player.prototype.reset = function() {
     this.x = 250;
-    this.y = 400;
+    this.y = 500;
 };
 
 //This is the collision checking out when the player bumps into an enemy or enemies
@@ -90,7 +90,8 @@ Player.prototype.checkCollision = function() {
 
     for (var i =0; i < 5; i++) {
     if ((this.x > allEnemies[i].x && this.x < allEnemies[i].x + 90 && this.y > allEnemies[i].y && this.y < allEnemies[i].y + 60) || 
-        (this.x < allEnemies[i].x && this.x + 60 > allEnemies[i].x && this.y > allEnemies[i].y && this.y < allEnemies[i].y + 60)) {
+        (this.x < allEnemies[i].x && this.x + 60 > allEnemies[i].x && this.y > allEnemies[i].y && this.y < allEnemies[i].y + 60) ||
+        (this.x >= 590) || (this.x < -90) || (this.y > 620)) {
         this.reset();  
     }
     }
