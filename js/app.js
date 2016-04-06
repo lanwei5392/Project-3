@@ -1,17 +1,23 @@
-//Thsi is enemy class 
+//This is a superclass to define a character
 
+var Character = function(x, y) {
+    this.x = x;
+    this.y = y;
+};
+Character.prototype.render = function(x, y) {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+//Use the superclass to define an enemy
 
 var Enemy = function(x, y, speed) {
 
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
-    this.x = x;
-    this.y = y;
-
+    Character.call(this, x, y);
     this.width = 90;
     this.height = 60;
-
     this.speed = speed;
     
     // The image/sprite for our enemies, this uses
@@ -19,7 +25,11 @@ var Enemy = function(x, y, speed) {
     this.sprite = 'images/enemy-bug.png';
 };
 
+//Use Character, the superclass prototype to construct and render Enemies that are defiend in the subclass.
 
+Enemy.prototype = Object.create(Character.prototype);
+
+Enemy.prototype.constructor = Enemy;
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -37,47 +47,39 @@ Enemy.prototype.update = function(dt) {
     }
 };
 
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function(x, y) {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
-
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
 
+//Use Charcter, the superclass to construct a Player in a subclass
 
 var Player = function(x, y) {
-    this.sprite = 'images/char-cat-girl.png';
-    this.x = x;
-    this.y = y;
 
+    Character.call(this, x, y);
     this.width = 60;
     this.height = 75;
+    this.sprite = 'images/char-cat-girl.png';
 };
 
+//Use the Character, the supoerclass to construct and render the player defined in the subclass
+Player.prototype = Object.create(Character.prototype);
 
-// Draw the player on the screen, required method for game
-Player.prototype.render = function(x, y) {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
+Player.prototype.constructor = Player;
 
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 
 var enemy1 = new Enemy(0, 60, 100);
-var enemy2 = new Enemy(100, 140, 60);
-var enemy3 = new Enemy(40, 220, 80);
-var enemy4 = new Enemy(260, 100, 120);
-var enemy5 = new Enemy(290, 230, 130);
+var enemy2 = new Enemy(100, 140, 120);
+var enemy3 = new Enemy(40, 220, 150);
+var enemy4 = new Enemy(260, 100, 130);
+var enemy5 = new Enemy(290, 230, 110);
 var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
 
 
 // Place the player object in a variable called player
 var player = new Player(250, 500);
-
 
 //This is to define where to rest the player when the reset needs to be called by collision or restart the game.
 Player.prototype.reset = function() {
