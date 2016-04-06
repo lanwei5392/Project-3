@@ -1,14 +1,26 @@
-//This is a superclass to define a character
 
+// Enable this js file to strict mode
+'use strict';
+// This is a superclass to define a character
 var Character = function(x, y) {
+    'use strict';
     this.x = x;
     this.y = y;
 };
 Character.prototype.render = function(x, y) {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+
 };
 
-//Use the superclass to define an enemy
+// Define an enemy sise
+var enemywidth = 90;
+var enemyheight = 60;
+
+// Define a player size
+var playerwidth = 60;
+var playerheight = 75;
+
+// Use the superclass to define an enemy
 
 var Enemy = function(x, y, speed) {
 
@@ -16,8 +28,8 @@ var Enemy = function(x, y, speed) {
     // we've provided one for you to get started
 
     Character.call(this, x, y);
-    this.width = 90;
-    this.height = 60;
+    this.width = enemywidth;
+    this.height = enemyheight;
     this.speed = speed;
     
     // The image/sprite for our enemies, this uses
@@ -25,7 +37,7 @@ var Enemy = function(x, y, speed) {
     this.sprite = 'images/enemy-bug.png';
 };
 
-//Use Character, the superclass prototype to construct and render Enemies that are defiend in the subclass.
+// Use Character, the superclass prototype to construct and render Enemies that are defiend in the subclass.
 
 Enemy.prototype = Object.create(Character.prototype);
 
@@ -51,17 +63,17 @@ Enemy.prototype.update = function(dt) {
 // This class requires an update(), render() and
 // a handleInput() method.
 
-//Use Charcter, the superclass to construct a Player in a subclass
+// Use Charcter, the superclass to construct a Player in a subclass
 
 var Player = function(x, y) {
 
     Character.call(this, x, y);
-    this.width = 60;
-    this.height = 75;
+    this.width = playerwidth;
+    this.height = playerheight;
     this.sprite = 'images/char-cat-girl.png';
 };
 
-//Use the Character, the supoerclass to construct and render the player defined in the subclass
+// Use the Character, the supoerclass to construct and render the player defined in the subclass
 Player.prototype = Object.create(Character.prototype);
 
 Player.prototype.constructor = Player;
@@ -81,46 +93,52 @@ var allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
 // Place the player object in a variable called player
 var player = new Player(250, 500);
 
-//This is to define where to rest the player when the reset needs to be called by collision or restart the game.
+// This is to define where to rest the player when the reset needs to be called by collision or restart the game.
 Player.prototype.reset = function() {
-    this.x = 250;
+    this.x = 200;
     this.y = 500;
 };
 
-//This is the collision checking out when the player bumps into an enemy or enemies
+// This is the collision checking out when the player bumps into an enemy or enemies
 Player.prototype.checkCollision = function() {
 
     for (var i =0; i < 5; i++) {
-    if ((this.x > allEnemies[i].x && this.x < allEnemies[i].x + 90 && this.y > allEnemies[i].y && this.y < allEnemies[i].y + 60) || 
-        (this.x < allEnemies[i].x && this.x + 60 > allEnemies[i].x && this.y > allEnemies[i].y && this.y < allEnemies[i].y + 60) ||
-        (this.x >= 590) || (this.x < -90) || (this.y > 620)) {
-        this.reset();  
-    }
+        if ((this.x > allEnemies[i].x && this.x < allEnemies[i].x + 90 && this.y > allEnemies[i].y && this.y < allEnemies[i].y + 60) || 
+            (this.x < allEnemies[i].x && this.x + 60 > allEnemies[i].x && this.y > allEnemies[i].y && this.y < allEnemies[i].y + 60)) {
+            this.reset(); 
+
+        } else if ((this.x > 550) || (this.x < -50) || (this.y > 590)) {
+            this.reset();  
+        }  
     }
 };
 
-//Update the player position with collission check out or restarting the game after the player wins
+// Update the player position with collission check out or restarting the game after the player wins
 Player.prototype.update = function() {
     this.checkCollision();
-    if (this.y < 0) {
+    if (this.y < -10) {
         this.reset();
     }
 };
 
 
-//Manually move the player to different directons
+// Manually move the player to different directons
 Player.prototype.handleInput = function(key) {
-    if (key === "left") {
+    if (key === "left") 
+    {
         this.x -=101;
     }
-    else if (key === "right") {
+    else if (key === "right") 
+    {
         this.x += 101;
     }
-    else if (key === 'up') {
-        this.y -= 83;
+    else if (key === 'up') 
+    {
+        this.y -= 40;
     }
-    else if (key === 'down') {
-        this.y += 83;
+    else if (key === 'down') 
+    {
+        this.y += 40;
     }
 };
 
